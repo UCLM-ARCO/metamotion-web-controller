@@ -1,0 +1,27 @@
+.title {
+    background-color: rgb(255, 255, 255);
+    border-bottom: solid;
+    border-color: rgb(51, 51, 51);
+    text-align: center;
+}
+
+.interaction {
+    text-align: center;
+    position: absolute;
+    top: 400px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.button {
+    background-color: rgb(51, 51, 51); /* Green */
+    border: rgb(246, 153, 50);
+    border-style: solid;
+    border-radius: 12px;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: rgb(246, 153, 50);
+    display: inline-block;
+    font-size: 30px;
+  }
