@@ -72,6 +72,9 @@ class Gather:
         print("Press Ctrl-C when the exercise finished")
         self.sensor.wait_until_break()
 
+    def sensor_is_connected(self):
+        return self.sensor.is_connected()
+
 
 if __name__ == '__main__':
     gather = Gather(freq=20)

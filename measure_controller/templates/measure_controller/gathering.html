@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href='{% static "measure_controller/style.css" %}'>
+    </head>
+
+    <div class="title">
+        <img src='{% static "measure_controller/logo-arco.png" %}' alt="Logo ARCO">
+    </div>
+
+    <div class="interaction">
+        <form>
+            {% csrf_token %}
+            <!-- <label for="file" class="file_label">File Name:</label><br>
+            <input type="text" class="file" name="file" value="data"><br> -->
+            <button type="submit" class="button" formaction="{% url 'index' %}" formmethod="POST">Stop Measurement</button>
+        </form>
+        <p id="info_msg"> The sensor is measuring, press the button when the exercise finalized </p>
+    </div>
+
+    <!-- <script>
+        function ShowMsg() {
+            document.getElementById("info_msg").innerHTML.style.display = "block";
+            location.reload();
+        }
+    </script> -->
+
+ </html>
