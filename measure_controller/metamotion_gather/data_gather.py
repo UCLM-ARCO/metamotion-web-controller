@@ -16,7 +16,7 @@ class Gather:
         self.acc_data = []
         self.gyro_data = []
         self.save_file = save_file
-        self.root_dir = "/home/jfruiz/metamotion_files"
+        self.root_dir = os.path.expanduser("~/metamotion_files")
 
     def get_data_with_log(self):
         self.sensor.gyroscope.setup_logger()
