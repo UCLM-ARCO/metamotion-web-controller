@@ -4,9 +4,10 @@ from metamotion import MetaMotion, Mode, Color
 import time
 import csv
 import copy
+import os
 
 class Gather:
-    def __init__(self, freq = 25, address = None):
+    def __init__(self, freq = 25, address = None, save_file = "data.csv"):
         self.sensor = MetaMotion(address)
         self.sensor.connect()
         self.sensor.setup_accelerometer(freq = freq)
@@ -14,6 +15,8 @@ class Gather:
         self.sensor.turn_on_led(Mode.SOLID, Color.GREEN)
         self.acc_data = []
         self.gyro_data = []
+        self.save_file = save_file
+        self.root_dir = "/home/jfruiz/metamotion_files"
 
     def get_data_with_log(self):
         self.sensor.gyroscope.setup_logger()
@@ -36,8 +39,11 @@ class Gather:
         self.log_data = self.sensor.gyroscope.rotation_log
 
     def write_data_to_csv(self):
+        if not os.path.exists(self.root_dir):
+            os.makedirs(self.root_dir)
+
         print("Writing all data to a csv")
-        with open('/home/jfruiz/data.csv', mode='w+') as csv_file:
+        with open(self.root_dir + "/" + self.save_file + ".csv", mode='w+') as csv_file:
             fieldnames = ['acc_x', 'acc_y', 'acc_z',\
                 'gyro_x', 'gyro_y', 'gyro_z']
             

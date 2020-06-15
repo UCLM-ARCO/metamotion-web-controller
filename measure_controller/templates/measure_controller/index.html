@@ -10,11 +10,18 @@
     </div>
 
     <div class="interaction">
-        <form>
+        <form action="{% url 'gathering' %}" method="post">
             {% csrf_token %}
-            <label for="file" class="file_label">File Name:</label><br>
-            <input type="text" class="file" name="file" placeholder="File to sava data..."><br>
-            <button type="submit" class="button" formaction="{% url 'gathering' %}" formmethod="POST">Begin Measurement</button>
+            {{ form.non_field_errors }}
+            <div>
+                {{ form.file_name.errors }}
+                <label for={{ form.file_name.id_for_label }} class = "file_label">File Name </label><br>
+                {{ form.file_name }}
+            </div>
+            <!-- <label for="file" class="file_label">File Name:</label><br> -->
+            <!-- {{ form.file_name }} -->
+            <!-- <input type="text" class="file" name="file" placeholder="File to sava data..."><br> -->
+            <button type="submit" class="button">Begin Measurement</button>
         </form>
         <p id="info_msg"> {{info_text}} </p>
     </div>

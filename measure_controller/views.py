@@ -1,10 +1,11 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
-from .metamotion_gather import Gather
-from metamotion import MetaMotionDeviceNotFound, ConnectionError
 from django.urls import reverse
 from django.template import loader
+from .forms import FileForm
+from .metamotion_gather import Gather
+from metamotion import MetaMotionDeviceNotFound, ConnectionError
 
-context = {"info_text": "After pressing this button, the connection with the sensor may take a bit long time"}
+context = {"info_text": "After pressing this button, the connection with the sensor may take a bit long time", "form": FileForm()}
 sensor_gather = None
 
 # Create your views here.
@@ -37,12 +38,14 @@ def index(request):
 
     # else:
     #     return render(request, 'measure_controller/index.html', context)
-    global sensor_gather
     global context
+    global sensor_gather
     if request.method == 'POST':
         sensor_gather.write_data_to_csv()
         sensor_gather.disconnect()
-        return render(request, 'measure_controller/index.html', context)
+        # return render(request, 'measure_controller/index.html', context)
+        return HttpResponseRedirect(reverse("index"))
+
     else:
         return render(request, 'measure_controller/index.html', context)
 
@@ -51,12 +54,21 @@ def gathering(request):
     global sensor_gather
     if request.method == 'POST':
         try:
-            sensor_gather = Gather()
-            sensor_gather.get_data_with_stream()
-            return render(request, 'measure_controller/gathering.html')
+            form = FileForm(request.POST)
+            if form.is_valid():
+                print("In if")
+                print(form["file_name"].value())
+                sensor_gather = Gather(save_file=form.cleaned_data["file_name"])
+                sensor_gather.get_data_with_stream()
+            # return render(request, 'measure_controller/gathering.html')
+                return HttpResponseRedirect(reverse("gathering"))
+
         except (MetaMotionDeviceNotFound, ConnectionError):
             context["info_text"] = "The connection with the sensor couldn't be made, try again"
             return HttpResponseRedirect(reverse("index"))
+    else:
+        return render(request, 'measure_controller/gathering.html')
+
 
 
         
