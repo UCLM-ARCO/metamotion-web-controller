@@ -15,9 +15,7 @@ def index(request):
     if request.method == 'POST':
         sensor_gather.write_data_to_csv()
         sensor_gather.disconnect()
-        # return render(request, 'measure_controller/index.html', context)
         return HttpResponseRedirect(reverse("index"))
-
     else:
         return render(request, 'measure_controller/index.html', context)
 
