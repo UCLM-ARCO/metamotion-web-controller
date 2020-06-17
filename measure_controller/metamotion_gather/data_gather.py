@@ -43,7 +43,7 @@ class Gather:
             os.makedirs(self.root_dir)
 
         print("Writing all data to a csv")
-        with open(self.root_dir + "/" + self.save_file + ".csv", mode='w+') as csv_file:
+        with open(self.root_dir + "/" + self.save_file + ".csv", mode='a+') as csv_file:
             fieldnames = ['acc_x', 'acc_y', 'acc_z',\
                 'gyro_x', 'gyro_y', 'gyro_z']
             
