@@ -35,7 +35,3 @@ def gathering(request):
             return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, 'measure_controller/gathering.html')
-
-
-
-        
