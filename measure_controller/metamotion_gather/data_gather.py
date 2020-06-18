@@ -61,11 +61,11 @@ class Gather:
         gyro_data = self.gyro_data
 
         def acceleration_handler(acceleration):
-            print(f"The acceleration is: {acceleration.x} {acceleration.y} {acceleration.z}")
+            print("The acceleration is: {} {} {}".format(acceleration.x, acceleration.y, acceleration.z))
             acc_data.append(copy.deepcopy(acceleration))
     
         def rotation_handler(rotation):
-            print(f"The rotation is: {rotation.x} {rotation.y} {rotation.z}")
+            print("The rotation is: {} {} {}".format(rotation.x, rotation.y, rotation.z))
             gyro_data.append(copy.deepcopy(rotation))
 
         self.sensor.gyroscope.on_rotation(rotation_handler)
