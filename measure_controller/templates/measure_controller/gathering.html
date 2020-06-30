@@ -10,11 +10,11 @@
     </div>
 
     <div class="interaction">
-        <form>
+        <form action="{% url 'index' %}" method="post">
             {% csrf_token %}
             <!-- <label for="file" class="file_label">File Name:</label><br>
             <input type="text" class="file" name="file" value="data"><br> -->
-            <button type="submit" class="button" formaction="{% url 'index' %}" formmethod="POST">Stop Measurement</button>
+            <button type="submit" class="button" onclick="this.disabled=true,this.form.submit();">Stop Measurement</button>
         </form>
         <p id="info_msg"> The sensor is measuring, press the button when the exercise finalized </p>
     </div>

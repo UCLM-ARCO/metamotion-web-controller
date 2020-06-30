@@ -4,7 +4,6 @@ from django.template import loader
 from .forms import FileForm
 from .metamotion_gather import Gather
 from metamotion import MetaMotionDeviceNotFound, ConnectionError
-from time import sleep
 
 context = {"info_text": "After pressing this button, the connection with the sensor may take a bit long time", "form": FileForm()}
 sensor_gather = None
@@ -16,7 +15,6 @@ def index(request):
     if request.method == 'POST':
         sensor_gather.write_data_to_csv()
         sensor_gather.disconnect()
-        sleep(3) #added sleep to ensure disconnection
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, 'measure_controller/index.html', context)

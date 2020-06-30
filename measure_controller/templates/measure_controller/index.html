@@ -21,7 +21,7 @@
             <!-- <label for="file" class="file_label">File Name:</label><br> -->
             <!-- {{ form.file_name }} -->
             <!-- <input type="text" class="file" name="file" placeholder="File to sava data..."><br> -->
-            <button type="submit" class="button">Begin Measurement</button>
+            <button type="submit" class="button" onclick="this.disabled=true,this.form.submit();">Begin Measurement</button>
         </form>
         <p id="info_msg"> {{info_text}} </p>
     </div>
