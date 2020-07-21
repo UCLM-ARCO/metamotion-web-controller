@@ -38,6 +38,25 @@ class Gather:
         self.acc_data = self.sensor.accelerometer.acc_log
         self.log_data = self.sensor.gyroscope.rotation_log
 
+    def init_loggers(self):
+        self.sensor.gyroscope.setup_logger()
+        self.sensor.accelerometer.setup_logger()
+
+        self.sensor.start_logging()
+
+    def get_data_from_loggers(self):
+        self.sensor.stop_logging()
+        self.sensor.sync_host_with_device()
+        time.sleep(3)
+        self.sensor.subscribe_anonymous_datasignals()
+
+        self.sensor.download_logs()
+        self.sensor.wait_until_download_complete()
+
+        print("The logged data by gyroscope ", self.sensor.gyroscope.rotation_log)
+        print("The logged data by accelerometer", self.sensor.accelerometer.acc_log)
+        self.clean_sensor()
+
     def write_data_to_csv(self):
         if not os.path.exists(self.root_dir):
             os.makedirs(self.root_dir)
@@ -74,6 +93,9 @@ class Gather:
     def disconnect(self):
         self.sensor.disconnect()
 
+    def clean_sensor(self):
+        self.sensor.clean()
+
     def wait_keyboard_interrupt(self):
         print("Press Ctrl-C when the exercise finished")
         self.sensor.wait_until_break()
@@ -86,7 +108,9 @@ if __name__ == '__main__':
     gather = Gather(freq=20)
     # gather.get_data_with_log()
     # gather.write_data_to_csv()
-    gather.get_data_with_stream()
-    gather.wait_keyboard_interrupt()
-    gather.write_data_to_csv()
+    # gather.get_data_with_stream()
+    # gather.wait_keyboard_interrupt()
+    # gather.write_data_to_csv()
+    # gather.init_loggers()
+    gather.get_data_from_loggers()
     gather.disconnect()
