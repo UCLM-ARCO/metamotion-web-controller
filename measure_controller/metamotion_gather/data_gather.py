@@ -7,7 +7,7 @@ import copy
 import os
 
 class Gather:
-    def __init__(self, freq = 25, address = None, save_file = "data.csv"):
+    def __init__(self, freq = 25, address = None, save_file = "data"):
         self.sensor = MetaMotion(address)
         self.sensor.connect()
         self.sensor.setup_accelerometer(freq = freq)
@@ -32,8 +32,9 @@ class Gather:
         
         self.sensor.download_logs()
         print("Wait until all the data is downloaded") 
-        self.sensor.accelerometer.wait_until_download_completed()
-        self.sensor.gyroscope.wait_until_download_completed()
+        # self.sensor.accelerometer.wait_until_download_completed()
+        # self.sensor.gyroscope.wait_until_download_completed()
+        self.sensor.wait_until_download_complete()
 
         self.acc_data = self.sensor.accelerometer.acc_log
         self.log_data = self.sensor.gyroscope.rotation_log
@@ -55,6 +56,9 @@ class Gather:
 
         print("The logged data by gyroscope ", self.sensor.gyroscope.rotation_log)
         print("The logged data by accelerometer", self.sensor.accelerometer.acc_log)
+
+        self.acc_data = self.sensor.accelerometer.acc_log
+        self.gyro_data = self.sensor.gyroscope.rotation_log
         self.clean_sensor()
 
     def write_data_to_csv(self):
@@ -113,4 +117,5 @@ if __name__ == '__main__':
     # gather.write_data_to_csv()
     # gather.init_loggers()
     gather.get_data_from_loggers()
+    gather.write_data_to_csv()
     gather.disconnect()
