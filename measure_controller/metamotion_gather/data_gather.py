@@ -32,8 +32,6 @@ class Gather:
         
         self.sensor.download_logs()
         print("Wait until all the data is downloaded") 
-        # self.sensor.accelerometer.wait_until_download_completed()
-        # self.sensor.gyroscope.wait_until_download_completed()
         self.sensor.wait_until_download_complete()
 
         self.acc_data = self.sensor.accelerometer.acc_log
