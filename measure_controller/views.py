@@ -9,15 +9,15 @@ context = {"info_text": "After pressing this button, the connection with the sen
 sensor_gather = None
 
 # Create your views here.
-def index(request):
+def streaming(request):
     global context
     global sensor_gather
     if request.method == 'POST':
         sensor_gather.disconnect()
         sensor_gather.write_data_to_csv()
-        return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(reverse("streaming"))
     else:
-        return render(request, 'measure_controller/index.html', context)
+        return render(request, 'measure_controller/streaming.html', context)
 
 def gathering(request):
     global context
@@ -32,6 +32,6 @@ def gathering(request):
 
         except (MetaMotionDeviceNotFound, ConnectionError):
             context["info_text"] = "The connection with the sensor couldn't be made, try again"
-            return HttpResponseRedirect(reverse("index"))
+            return HttpResponseRedirect(reverse("streaming"))
     else:
         return render(request, 'measure_controller/gathering.html')

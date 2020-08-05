@@ -2,7 +2,7 @@
 <html>
     <head>
         {% load static %}
-        <link rel="stylesheet" type="text/css" href='{% static "measure_controller/style.css" %}'>
+        <link rel="stylesheet" type="text/css" href='{% static "measure_controller/streaming-style.css" %}'>
     </head>
 
     <div class="title">
@@ -10,7 +10,7 @@
     </div>
 
     <div class="interaction">
-        <form action="{% url 'index' %}" method="post">
+        <form action="{% url 'streaming' %}" method="post">
             {% csrf_token %}
             <!-- <label for="file" class="file_label">File Name:</label><br>
             <input type="text" class="file" name="file" value="data"><br> -->
