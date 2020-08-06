@@ -13,7 +13,7 @@
         <div class="create-loggers">
             <form action="{% url 'logging' %}" id="init" method="post">
                 {% csrf_token %}
-                <button type="submit" class="button" onclick="this.disabled=true,this.form.submit();">Init logs</button>
+                <button type="submit" class="button" onclick='this.disabled=true, document.getElementById("info_msg").innerHTML = "Creating loggers...",this.form.submit();'>Init logs</button>
             </form>
         </div>
 
@@ -28,9 +28,10 @@
                     <label class="file_label" for={{ form.file_name.id_for_label }}>File Name </label><br>
                     {{ form.file_name }}
                 </div>
-                <button type="submit" class="button" onclick="this.disabled=true,this.form.submit();">Download Logs</button>
+                <button type="submit" class="button" onclick='this.disabled=true, document.getElementById("info_msg").innerHTML = "Downloading data... This process can take a long time", this.form.submit();'>Download Logs</button>
             </form>
         </div>
+        <p id="info_msg"> {{info_text}} </p>
         
         <!-- <p id="info_msg"> The sensor is measuring, press the button when the exercise finished </p> -->
     </div>

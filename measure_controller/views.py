@@ -3,9 +3,10 @@ from django.urls import reverse
 from django.template import loader
 from .forms import FileForm
 from .metamotion_gather import Gather
-from metamotion import MetaMotionDeviceNotFound, ConnectionError
+from metamotion import MetaMotionDeviceNotFound, ConnectionError, LoggerError
 
 streaming_context = {"info_text": "After pressing this button, the connection with the sensor may take a bit long time", "form": FileForm()}
+logging_context = {"info_text": "In this website, you can create loggers and download data for loggers previously created", "form": FileForm()}
 sensor_gather = None
 
 # Create your views here.
@@ -37,22 +38,19 @@ def gathering(request):
         return render(request, 'measure_controller/gathering.html')
 
 def logging(request):
-    logging_context = {"form": FileForm()}
+    global logging_context
     if request.method == 'POST':
         if 'file_name' in request.POST.keys():
             try:
-                print("Conexión con archivo")
                 form = FileForm(request.POST)
                 if form.is_valid():
-                    print("Es valido")
                     sensor_gather = Gather(save_file=form.cleaned_data["file_name"])
                     sensor_gather.get_data_from_loggers()
                     sensor_gather.write_data_to_csv()
                     sensor_gather.disconnect()
                     return HttpResponseRedirect(reverse("logging"))
             except (MetaMotionDeviceNotFound, ConnectionError):
-                print("Exception")
-                streaming_context["info_text"] = "The connection with the sensor couldn't be made, try again"
+                logging_context["info_text"] = "The connection with the sensor couldn't be made, try again"
             return HttpResponseRedirect(reverse("logging"))
         else:
             try:
@@ -62,6 +60,8 @@ def logging(request):
                 sensor_gather.disconnect()
             except (MetaMotionDeviceNotFound, ConnectionError):
                 streaming_context["info_text"] = "The connection with the sensor couldn't be made, try again"
+            except LoggerError:
+                logging_context["info_text"] = "Failed to create loggers"
             return HttpResponseRedirect(reverse("logging"))
 
     elif request.method == 'GET':
