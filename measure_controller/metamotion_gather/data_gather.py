@@ -79,8 +79,7 @@ class Gather:
                     'acc_x': self.acc_data[i].x, 'acc_y': self.acc_data[i].y, 'acc_z': self.acc_data[i].z,
                     'gyro_x': self.gyro_data[i].x, 'gyro_y': self.gyro_data[i].y, 'gyro_z': self.gyro_data[i].z
                     })
-        print("All the data is written")
-
+                    
     def get_data_with_stream(self):
         acc_data = self.acc_data
         gyro_data = self.gyro_data

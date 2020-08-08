@@ -46,8 +46,8 @@ def logging(request):
                 if form.is_valid():
                     sensor_gather = Gather(save_file=form.cleaned_data["file_name"])
                     sensor_gather.get_data_from_loggers()
-                    sensor_gather.write_data_to_csv()
                     sensor_gather.disconnect()
+                    sensor_gather.write_data_to_csv()
                     return HttpResponseRedirect(reverse("logging"))
             except (MetaMotionDeviceNotFound, ConnectionError):
                 logging_context["info_text"] = "The connection with the sensor couldn't be made, try again"

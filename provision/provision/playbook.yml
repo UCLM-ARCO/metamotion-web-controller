@@ -1,0 +1,131 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Install all the packages needed
+      apt:
+        pkg:
+        - hostapd
+        - dnsmasq
+        - netfilter-persistent 
+        - iptables-persistent
+        - libbluetooth-dev
+        - libboost-all-dev
+        - bluetooth
+        - bluez
+        update_cache: yes
+    
+    - name: Install python dependencies
+      pip:
+        name:
+          - django
+          - bleak
+          - metawear
+          - service_identity
+        executable: pip3
+
+    - name: Configure DHCP and DNS server in dnsmasq.conf
+      lineinfile:
+        dest: /etc/dnsmasq.conf
+        state: present
+        line: "{{ item.line }}"
+      with_items:
+        - { line: 'interface=wlan0' }
+        - { line: 'dhcp-range=192.168.4.2,192.168.4.20,255.255.255.0,24h' }
+        - { line: 'domain=wlan' }
+        - { line: 'address=/gw.wlan/192.168.4.1' }
+        - { line: 'listen-address=::1,127.0.0.1,192.168.4.1' }
+
+    - name: Modify the file /etc/hosts
+      lineinfile:
+        dest: /etc/hosts
+        state: present
+        line: "{{ item.line }}"
+      with_items:
+        - { line: '192.168.4.1    arco.proto.imu' }
+
+    - name: Create the file with AP configuration
+      file:
+        dest: /etc/hostapd/hostapd.conf
+        state: touch
+        mode: u=rw,g=r,o=r
+
+    - name: Modify the file /etc/default/hostapd to indicate config file
+      lineinfile:
+        dest: /etc/default/hostapd
+        state: present
+        line: "DAEMON_CONF=\"/etc/hostapd/hostapd.conf\""
+
+    - name: Add configuration to hostapd.conf
+      lineinfile:
+        dest: /etc/hostapd/hostapd.conf
+        state: present
+        line: "{{ item.line }}"
+      with_items:
+        - { line: 'country_code=ES' }
+        - { line: 'interface=wlan0' }
+        - { line: 'ssid=Raspberry' }
+        - { line: 'hw_mode=g' }
+        - { line: 'channel=7' }
+        - { line: 'macaddr_acl=0' }
+        - { line: 'auth_algs=1' }
+        - { line: 'ignore_broadcast_ssid=0' }
+        - { line: 'wpa=2' }
+        - { line: 'wpa_passphrase=password' }
+        - { line: 'wpa_key_mgmt=WPA-PSK' }
+        - { line: 'wpa_pairwise=TKIP' }
+        - { line: 'rsn_pairwise=CCMP' }
+
+    - name: Enable hostapd to init in boot time
+      service:
+        name: hostapd 
+        enabled: yes
+    
+    - name: Modify the file /etc/network/interfaces, and configure the static address
+      lineinfile:
+        dest: /etc/network/interfaces
+        state: present
+        line: "{{ item.line }}"
+      with_items:
+        - { line: 'auto wlan0' }
+        - { line: 'allow-hotplug wlan0' }
+        - { line: 'iface wlan0 inet static' }
+        - { line: '    address 192.168.4.1' }
+        - { line: '    netmask 255.255.255.0' }
+        - { line: '    gateway 192.168.4.1' }
+
+    # - name: Clone the web repo
+    #   git:
+    #     repo: 'https://jesusfernandezbermejo@bitbucket.org/jesusfernandezbermejo/imu-web-controller.git'
+    #     dest: /home/website
+    #     clone: yes
+    #     accept_hostkey: yes
+    #     update: yes
+
+    - name: Create the directory website
+      file:
+        path: /home/website
+        state: directory
+        mode: '0755'
+
+    - name: Copy the repo to the absolute path
+      copy:
+        src: ../*
+        dest: /home/website
+
+    - name: Create the metamotion_files directory to save logs and data
+      file:
+        path: /home/pi/metamotion_files
+        state: directory
+        mode: '0777'
+
+    - name: Instruction to execute server in init
+      lineinfile:
+        dest: /etc/rc.local
+        state: present
+        insertbefore: '^exit 0'
+        line: "{{ item.line }}"
+      with_items:
+        #- { line: 'sudo service hostapd restart' }
+        - {line: 'ip link set up wlan0'}
+        - { line: 'su - pi -c "python3 /home/website/manage.py runserver 0:8000 > ~/metamotion_files/logs &"' }
