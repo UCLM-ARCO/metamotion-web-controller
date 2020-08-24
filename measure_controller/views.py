@@ -18,7 +18,9 @@ def streaming(request):
         sensor_gather.write_data_to_csv()
         return HttpResponseRedirect(reverse("streaming"))
     else:
-        return render(request, 'measure_controller/streaming.html', streaming_context)
+        context = streaming_context
+        streaming_context = {"info_text": "After pressing this button, the connection with the sensor may take a bit long time", "form": FileForm()}
+        return render(request, 'measure_controller/streaming.html', context)
 
 def gathering(request):
     global streaming_context
@@ -59,10 +61,12 @@ def logging(request):
                 sensor_gather.init_loggers()
                 sensor_gather.disconnect()
             except (MetaMotionDeviceNotFound, ConnectionError):
-                streaming_context["info_text"] = "The connection with the sensor couldn't be made, try again"
+                logging_context["info_text"] = "The connection with the sensor couldn't be made, try again"
             except LoggerError:
                 logging_context["info_text"] = "Failed to create loggers"
             return HttpResponseRedirect(reverse("logging"))
 
     elif request.method == 'GET':
-        return render(request, 'measure_controller/logging.html', logging_context)
+        context = logging_context
+        logging_context = {"info_text": "In this website, you can create loggers and download data for loggers previously created", "form": FileForm()} 
+        return render(request, 'measure_controller/logging.html', context)

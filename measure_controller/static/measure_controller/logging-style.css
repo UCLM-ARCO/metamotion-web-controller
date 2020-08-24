@@ -39,24 +39,16 @@
 }
 
 .create-loggers {
-    /* width: 50%; */
     position: absolute;
-    float: left;
     top: 150px;
-    left: 20%;
-    /* vertical-align: middle; */
-    /* transform: translate(-50%, 0%); */
+    left: 25%;
 }
 
 .download-loggers {
-    /* width: 50%; */
-    position: absolute;
-    float: right;
+    /* position: absolute; */
     top: 150px;
-    right: 20%;
-    /* border-right: solid; */
-    /* vertical-align: middle; */
-    /* transform: translate(50%,0%); */
+    position: absolute;
+    left: 60%;
 }
 
 .file_label {
@@ -75,3 +67,13 @@
     padding: 15px 20px;
     border-radius: 12px;
 }
+
+.vertical-line {
+    border-left: 6px solid black;
+    top: 100px;
+    height: 400px; 
+    position:absolute; 
+    left: 50%; 
+}
+
+

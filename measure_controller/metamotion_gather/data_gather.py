@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from metamotion import MetaMotion, Mode, Color
+from metamotion import MetaMotion, Mode, Color, MetaMotionDeviceNotFound
 import time
 import csv
 import copy
@@ -9,7 +9,11 @@ import os
 class Gather:
     def __init__(self, freq = 25, address = None, save_file = "data"):
         if address is None:
-            address = MetaMotion.scan_metamotion_sensor()[0]
+            devices_detected = MetaMotion.scan_metamotion_sensor()
+            if len(devices_detected) == 0:
+                raise(MetaMotionDeviceNotFound("A MetaMotionR sensor cant be found"))
+            else:
+                address = devices_detected[0]
             
         self.sensor = MetaMotion(address)
         self.sensor.connect()
