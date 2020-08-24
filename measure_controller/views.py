@@ -10,6 +10,10 @@ logging_context = {"info_text": "In this website, you can create loggers and dow
 sensor_gather = None
 
 # Create your views here.
+
+def index(request):
+    return render(request, 'measure_controller/index.html')
+
 def streaming(request):
     global streaming_context
     global sensor_gather

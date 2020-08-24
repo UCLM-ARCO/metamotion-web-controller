@@ -41,14 +41,14 @@
 .create-loggers {
     position: absolute;
     top: 150px;
-    left: 25%;
+    /* left: 25%; */
 }
 
 .download-loggers {
     /* position: absolute; */
     top: 150px;
     position: absolute;
-    left: 60%;
+    /* left: 60%; */
 }
 
 .file_label {
@@ -73,7 +73,33 @@
     top: 100px;
     height: 400px; 
     position:absolute; 
-    left: 50%; 
+    /* left: 50%;  */
+}
+
+@media only screen and (max-width: 768px) {
+    .create-loggers {
+        left: 5px;
+    }
+
+    .download-loggers {
+        left: 300px;
+    }
+
+    .vertical-line {
+        left: 230px;
+    }
+  }
+
+@media only screen and (min-width: 769px) {
+  .create-loggers {
+      left: 25%;
+  }
+  .download-loggers {
+      left: 60%;
+  }
+  .vertical-line {
+      left: 50%;
+  }
 }
 
 
