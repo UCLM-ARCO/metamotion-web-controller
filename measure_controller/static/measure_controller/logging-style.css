@@ -12,9 +12,6 @@
     width: 100%;
     top: 260px;
     height: 100%;
-    /* top: 500px;
-    left: 50%; */
-    /* transform: translate(-50%, -50%); */
 }
 
 .button {
@@ -48,7 +45,6 @@
     /* position: absolute; */
     top: 150px;
     position: absolute;
-    /* left: 60%; */
 }
 
 .file_label {
@@ -73,7 +69,6 @@
     top: 100px;
     height: 400px; 
     position:absolute; 
-    /* left: 50%;  */
 }
 
 @media only screen and (max-width: 768px) {
