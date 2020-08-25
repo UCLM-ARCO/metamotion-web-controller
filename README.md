@@ -1,29 +1,6 @@
-# README #
-
-This README would normally document whatever steps are necessary to get your application up and running.
-
-### What is this repository for? ###
-
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
-
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+Web interface that enables the user to control the collection of data with  MetaMotionR sensor, from Mbientlab.
+Is recommended to use this software with a Raspberry Pi. In order to convert your RPi in a gateway for the
+MetaMotionR imus, you can run the file provision/provision.sh, which can be found in this repo. Following, 
+if you connect to the port 8000, you can see the two main applications to save data in files (streaming the 
+data or logging it in the sensor for its later download). The files where the data is saved, can be found 
+in the path ~/metamotion_files.
