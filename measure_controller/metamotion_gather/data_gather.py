@@ -1,10 +1,11 @@
 #!/usr/bin/python3
 
-from metamotion import MetaMotion, Mode, Color, MetaMotionDeviceNotFound
 import time
+import datetime
 import csv
 import copy
 import os
+from metamotion import MetaMotion, Mode, Color, MetaMotionDeviceNotFound
 
 class Gather:
     def __init__(self, freq = 25, address = None, save_file = "data"):
@@ -70,8 +71,12 @@ class Gather:
         if not os.path.exists(self.root_dir):
             os.makedirs(self.root_dir)
 
+        timestamp = datetime.datetime.fromtimestamp(
+            time.time()).strftime('%Y-%m-%d_%H:%M:%S')
+        filename = self.root_dir + "/" + self.save_file + "_" + timestamp + ".csv"
+        
         print("Writing all data to a csv")
-        with open(self.root_dir + "/" + self.save_file + ".csv", mode='a+') as csv_file:
+        with open(filename, mode='a+') as csv_file:
             fieldnames = ['acc_x', 'acc_y', 'acc_z',\
                 'gyro_x', 'gyro_y', 'gyro_z']
             
