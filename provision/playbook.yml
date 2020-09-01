@@ -77,9 +77,10 @@
         - { line: 'rsn_pairwise=CCMP' }
 
     - name: Enable hostapd to init in boot time
-      service:
+      systemd:
         name: hostapd 
         enabled: yes
+        masked: no
     
     - name: Modify the file /etc/network/interfaces, and configure the static address
       lineinfile:
@@ -108,7 +109,7 @@
         state: directory
         mode: '0755'
 
-    - name: Copy the repo to the absolute path
+    - name: Copy the repo to absolute path
       copy:
         src: ../*
         dest: /home/website
