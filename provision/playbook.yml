@@ -111,7 +111,7 @@
 
     - name: Copy the repo to absolute path
       copy:
-        src: ../*
+        src: "{{ playbook_dir }}/../"
         dest: /home/website
 
     - name: Create the metamotion_files directory to save logs and data
