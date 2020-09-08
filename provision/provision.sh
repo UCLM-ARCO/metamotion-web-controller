@@ -3,7 +3,7 @@
 sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get install ansible openssh-server sshpass
-dpkg -i metamotion_0.20200531-1_all.deb
+# dpkg -i metamotion_0.20200531-1_all.deb
 
 sudo service ssh restart
 

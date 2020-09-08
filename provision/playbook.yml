@@ -2,6 +2,9 @@
 - hosts: all
   become: true
   tasks:
+    - name: Add arco package repository.
+      shell: apt-key adv --fetch-keys https://uclm-arco.github.io/debian/key.asc
+
     - name: Install all the packages needed
       apt:
         pkg:
@@ -13,6 +16,7 @@
         - libboost-all-dev
         - bluetooth
         - bluez
+        - metamotion
         update_cache: yes
     
     - name: Install python dependencies
