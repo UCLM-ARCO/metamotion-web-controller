@@ -2,8 +2,17 @@
 - hosts: all
   become: true
   tasks:
+    - name: Install dirmngr
+      apt:
+        pkg: dirmngr
+
+    - name: Add arco package repository key.
+      shell: apt-key adv --fetch-keys https://uclm-arco.github.io/debian/key.asc 
+
     - name: Add arco package repository.
-      shell: apt-key adv --fetch-keys https://uclm-arco.github.io/debian/key.asc
+      apt_repository:
+        repo: deb https://uclm-arco.github.io/debian/ sid main
+        state: present
 
     - name: Install all the packages needed
       apt:
