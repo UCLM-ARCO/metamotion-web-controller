@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import re_path, path, include
 
-re_path(r'^celery-progress/', include('celery_progress.urls')),  # the endpoint is configurable
+# re_path(r'^celery-progress/', include('celery_progress.urls')),  # the endpoint is configurable
 
 urlpatterns = [
     path('admin/', admin.site.urls),

@@ -1,6 +1,8 @@
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.template import loader
+# from celery import shared_task
+# from celery_progress.backend import ProgressRecorder
 from .forms import FileForm
 from .metamotion_gather import Gather
 from metamotion import MetaMotionDeviceNotFound, ConnectionError, LoggerError
@@ -43,6 +45,8 @@ def gathering(request):
     else:
         return render(request, 'measure_controller/gathering.html')
 
+
+
 def logging(request):
     global logging_context
     if request.method == 'POST':
@@ -72,5 +76,5 @@ def logging(request):
 
     elif request.method == 'GET':
         context = logging_context
-        logging_context = {"info_text": "In this website, you can create loggers and download data for loggers previously created", "form": FileForm()} 
+        logging_context = {"info_text": "In this website, you can create loggers and download data for loggers previously created", "form": FileForm()}
         return render(request, 'measure_controller/logging.html', context)
