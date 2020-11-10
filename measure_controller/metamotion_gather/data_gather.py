@@ -67,15 +67,20 @@ class Gather:
         print("Writing all data to a csv")
         with open(filename, mode='a+') as csv_file:
             fieldnames = ['acc_x', 'acc_y', 'acc_z',\
-                'gyro_x', 'gyro_y', 'gyro_z']
+                'gyro_x', 'gyro_y', 'gyro_z', 'timestamp']
             
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
 
             writer.writeheader()    
             for i in range(min(len(self.acc_data), len(self.gyro_data))):
                 writer.writerow({
-                    'acc_x': self.acc_data[i][0].x, 'acc_y': self.acc_data[i][0].y, 'acc_z': self.acc_data[i][0].z,
-                    'gyro_x': self.gyro_data[i][0].x, 'gyro_y': self.gyro_data[i][0].y, 'gyro_z': self.gyro_data[i][0].z
+                    'acc_x': self.acc_data[i][0].x, 
+                    'acc_y': self.acc_data[i][0].y, 
+                    'acc_z': self.acc_data[i][0].z,
+                    'gyro_x': self.gyro_data[i][0].x, 
+                    'gyro_y': self.gyro_data[i][0].y, 
+                    'gyro_z': self.gyro_data[i][0].z,
+                    'timestamp': self.acc_data[i][1]
                     })
                     
     def get_data_with_stream(self):
