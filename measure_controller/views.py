@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.template import loader
 from .forms import FileForm
 from .metamotion_gather import Gather
-from metamotion import MetaMotionDeviceNotFound, ConnectionError, LoggerError
+from metamotion import MetaMotionDeviceNotFound, ConnectionError, LoggerError, Method
 
 streaming_context = {"info_text": "After pressing this button, the connection with the sensor may take a bit long time", "form": FileForm()}
 logging_context = {"info_text": "In this website, you can create loggers and download data for loggers previously created", "form": FileForm()}
@@ -50,7 +50,7 @@ def logging(request):
             try:
                 form = FileForm(request.POST)
                 if form.is_valid():
-                    sensor_gather = Gather(save_file=form.cleaned_data["file_name"])
+                    sensor_gather = Gather(save_file=form.cleaned_data["file_name"], method=Method.LOGGING)
                     sensor_gather.get_data_from_loggers()
                     sensor_gather.disconnect()
                     sensor_gather.write_data_to_csv()
@@ -61,7 +61,7 @@ def logging(request):
         else:
             try:
                 print("Conexión creando loggers")
-                sensor_gather = Gather()
+                sensor_gather = Gather(method=Method.LOGGING)
                 sensor_gather.init_loggers()
                 sensor_gather.disconnect()
             except (MetaMotionDeviceNotFound, ConnectionError):
