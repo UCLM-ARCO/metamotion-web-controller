@@ -95,19 +95,16 @@
         enabled: yes
         masked: no
     
-    - name: Modify the file /etc/network/interfaces, and configure the static address
+    - name: Modify the file /etc/dhcpcd.conf, and configure the static address
       lineinfile:
-        dest: /etc/network/interfaces
+        dest: /etc/dhcpcd.conf
         state: present
         line: "{{ item.line }}"
       with_items:
-        - { line: 'auto wlan0' }
-        - { line: 'allow-hotplug wlan0' }
-        - { line: 'iface wlan0 inet static' }
-        - { line: '    address 192.168.4.1' }
-        - { line: '    netmask 255.255.255.0' }
-        - { line: '    gateway 192.168.4.1' }
-
+        - { line: 'interface wlan0' }
+        - { line: '    static ip_address=192.168.4.1/24' }
+        - { line: '    nohook wpa_supplicant' }
+        
     # - name: Clone the web repo
     #   git:
     #     repo: 'https://jesusfernandezbermejo@bitbucket.org/jesusfernandezbermejo/imu-web-controller.git'
